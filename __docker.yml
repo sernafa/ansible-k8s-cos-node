@@ -1,0 +1,21 @@
+
+---
+
+- name: ansible-k8s-cos-node docker
+  hosts: all
+  gather_facts: true
+  vars_files:
+    - vars/docker.yml
+  tasks:
+    - name: Check if DOCKER repo is already configured.
+      stat:
+        path: "{{ docker_repofile_path }}"
+      register: epel_repofile_result
+
+    - name: add Docker YUM repository
+      yum_repository:
+        name: Docker
+        description: Docker YUM repository
+        baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+        #gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+        #gpgcheck: yes
